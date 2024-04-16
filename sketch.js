@@ -11,10 +11,10 @@ let l1,l2,l3,l4; // Ball's Y-coordinate
 let p1,p2,p3,p4; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
-let score;
-let balls=[];
-let gameTime, startTime, ltime, levelTime;
-let endMessage;
+let score; // Score
+let balls=[]; // Array of Balls to keep track of gameplay
+let gameTime, startTime, ltime, levelTime; // Timing variables
+let endMessage; // end user message
 
 function setup() {
   let cnv = createCanvas(windowWidth*0.8, windowHeight*0.8);
@@ -40,6 +40,15 @@ function setup() {
   l2.vel.y = 3;
   l3.vel.y = 3;
   l4.vel.y = 3;
+  l1.layer = 1;
+  l2.layer = 1;
+  l3.layer = 1;
+  l4.layer = 1;
+  l1.collider = 'd';
+  l2.collider = 'd';
+  l3.collider = 'd';
+  l4.collider = 'd';
+
   l1.color = 'lightgreen';
   l2.color = 'lightblue';
   l3.color = 'pink';
@@ -48,6 +57,25 @@ function setup() {
   l2.visible = false;
   l3.visible = false;
   l4.visible = false;
+
+  p1 = new Sprite(l1.x, height*0.9, 100, 's');
+  p2 = new Sprite(l2.x, height*0.9, 100, 'd');
+  p3 = new Sprite(l3.x, height*0.9, 100, 'n');
+  p4 = new Sprite(l4.x, height*0.9, 100, 'k');
+  p1.color = 'green';
+  p2.color = 'blue';
+  p3.color = '#ff00ff';
+  p4.color = 'purple';
+  p1.layer = 2;
+  p2.layer = 2;
+  p3.layer = 2;
+  p4.layer = 2;
+  p1.visible = false;
+  p2.visible = false;
+  p3.visible = false;
+  p4.visible = false;
+
+
 
   startBtn = new Sprite(width*0.5, height*0.5, 200, 's');
   startBtn.color = 'lime';
@@ -87,10 +115,8 @@ function draw() {
   if (startBtn.mouse.presses()){
     startBtn.visible = false;
     startBtn.collider = 'n';
-    
     startTime = millis();
   }
-
  
   if (gameStart){
 
@@ -98,21 +124,30 @@ function draw() {
     l2.visible = true;
     l3.visible = true;
     l4.visible = true;
+    p1.visible = true;
+    p2.visible = true;
+    p3.visible = true;
+    p4.visible = true;
+  
+    // create beats
 
-    // Loop the ball back to the top
-    if (balls.length < 4){
-      balls.push(new l1.Sprite());
-      balls.push(new l2.Sprite());
-      balls.push(new l3.Sprite());
-      balls.push(new l4.Sprite());
+    if (l1.length < 1){
+      let b1 = new l1.Sprite();
+      p1.overlaps(b1, checkCatch);
+    }
+    if (l2.length < 1){
+      let b2 = new l2.Sprite();
+      p2.overlaps(b2, checkCatch);
+    }
+    if (l3.length < 1){
+      let b3 = new l3.Sprite();
+      p3.overlaps(b3, checkCatch);
+    }
+    if (l4.length < 1){
+      let b4 = new l4.Sprite();
+      p4.overlaps(b4, checkCatch);
     }
 
-    for (let i = 0; i < balls.length; i++){
-      if (balls[i].y > height) {
-        balls[i].remove();
-        score++; // Increment the score
-      }
-    }
   } else {
     resetGame();
   }
@@ -200,8 +235,51 @@ function topBar(){
 //   }
 }
 
+function checkCatch(player, ball){
+  if (kb.pressing('w')){
+    p1.color = "#65FD08";
+    if (dist(p1.x, p1.y, ball.x, ball.y) < 100){
+      ball.remove();
+      score += 10;
+    }
+  } else if (kb.pressing('a')){
+    p2.color = "aqua";
+    if (dist(p2.x, p2.y, ball.x, ball.y) < 100){
+      ball.remove();
+      score += 10;
+    }
+  } else if (kb.pressing('s')){
+    p3.color = "red";
+    if (dist(p3.x, p3.y, ball.x, ball.y) < 100){
+      ball.remove();
+      score += 10;
+    }
+  } else if (kb.pressing('d')){
+    p4.color = "#CCB2D2";
+    if (dist(p4.x, p4.y, ball.x, ball.y) < 100){
+      ball.remove();
+      score += 10;
+    }
+  } else {
+    score--;
+  }
+}
+
 function resetGame(){
   score = 0;
-  // startBtn.visible = true;
-  // startBtn.collider = 's';
+  balls = [];
+  l1.visible = false;
+  l2.visible = false;
+  l3.visible = false;
+  l4.visible = false;
+  p1.visible = false;
+  p2.visible = false;
+  p3.visible = false;
+  p4.visible = false;
+}
+
+// Window resized function will run when "reload" after a browser window resize
+function windowResized(){
+  // Canvas is set to 95% width and height - match setup scale
+  resizeCanvas(windowWidth*0.8, windowHeight*0.8);
 }
