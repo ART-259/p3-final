@@ -7,75 +7,73 @@
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
 
-let l1,l2,l3,l4; // Ball's Y-coordinate
-let p1,p2,p3,p4; // Player catchers
+let posX, c, cp;
+let p=[]; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
 let score; // Score
-let balls=[]; // Array of Balls to keep track of gameplay
+let beats, b; // Beats to keep track of gameplay
 let gameTime, startTime, ltime, levelTime; // Timing variables
 let endMessage; // end user message
+
+// class Beat {
+//   constructor(x, y){
+//     this.x = x;
+//     this.y = y;
+//     this.s = new Sprite(this.x, this.y, 100, 'd');
+//     this.on = false;
+//     this.s.vel.y = 3;
+//     this.s.bounciness = 0;
+//     this.s.rotationLock = true;
+//   }
+
+//   show(){
+//     if (this.on){
+//       this.s;
+//     } else {
+//       console.log('no beat');
+//     }
+//   }
+
+//   setBeat(){
+//     this.on = !this.on;
+//   }
+
+//   match(px, py){
+//     if (dist(x,y,px,py)<100){
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+// }
 
 function setup() {
   let cnv = createCanvas(windowWidth*0.8, windowHeight*0.8);
   cnv.parent('p3');
 
-  l1 = new Group();
-  l2 = new Group();
-  l3 = new Group();
-  l4 = new Group();
-  l1.x = width*0.2;
-  l2.x = width*0.4;
-  l3.x = width*0.6;
-  l4.x = width*0.8;
-  l1.y = height*0.2;
-  l2.y = height*0.2;
-  l3.y = height*0.2;
-  l4.y = height*0.2;
-  l1.d = 100;
-  l2.d = 100;
-  l3.d = 100;
-  l4.d = 100;
-  l1.vel.y = 3;
-  l2.vel.y = 3;
-  l3.vel.y = 3;
-  l4.vel.y = 3;
-  l1.layer = 1;
-  l2.layer = 1;
-  l3.layer = 1;
-  l4.layer = 1;
-  l1.collider = 'd';
-  l2.collider = 'd';
-  l3.collider = 'd';
-  l4.collider = 'd';
+  posX = [width*0.2, width*0.4, width*0.6, width*0.8];
+  c = ['green', 'blue', '#ff00ff', 'purple'];
+  cp = ['lightgreen', 'aqua', 'pink', '#cbc3e3'];
+  beats = new Group();
+  beats.x = random(posX);
+  beats.y = height*0.2;
+  beats.d = 100;
+  beats.collider = 'd';
+  beats.vel.y = 3;
+  // beats.visible = false;
+  beats.color = '#3e3e3e';
+  
+  // l1.color = 'lightgreen';
+  // l2.color = 'lightblue';
+  // l3.color = 'pink';
+  // l4.color = '#CBC3E3';
 
-  l1.color = 'lightgreen';
-  l2.color = 'lightblue';
-  l3.color = 'pink';
-  l4.color = '#CBC3E3';
-  l1.visible = false;
-  l2.visible = false;
-  l3.visible = false;
-  l4.visible = false;
-
-  p1 = new Sprite(l1.x, height*0.9, 100, 's');
-  p2 = new Sprite(l2.x, height*0.9, 100, 'd');
-  p3 = new Sprite(l3.x, height*0.9, 100, 'n');
-  p4 = new Sprite(l4.x, height*0.9, 100, 'k');
-  p1.color = 'green';
-  p2.color = 'blue';
-  p3.color = '#ff00ff';
-  p4.color = 'purple';
-  p1.layer = 2;
-  p2.layer = 2;
-  p3.layer = 2;
-  p4.layer = 2;
-  p1.visible = false;
-  p2.visible = false;
-  p3.visible = false;
-  p4.visible = false;
-
-
+  for (let i = 0; i < 4; i++){
+    p.push(new Sprite(posX[i], height*0.9, 100, 'n'));
+    p[i].color = c[i];
+    p[i].visible = false;
+  }
 
   startBtn = new Sprite(width*0.5, height*0.5, 200, 's');
   startBtn.color = 'lime';
@@ -90,9 +88,9 @@ function setup() {
   endMessage.textColor = 'blue';
 
   levelTime = 10;
-
   score = 0;
   gameStart = false;
+
 }
 
 function draw() {
@@ -120,34 +118,63 @@ function draw() {
  
   if (gameStart){
 
-    l1.visible = true;
-    l2.visible = true;
-    l3.visible = true;
-    l4.visible = true;
-    p1.visible = true;
-    p2.visible = true;
-    p3.visible = true;
-    p4.visible = true;
-  
     // create beats
-
-    if (l1.length < 1){
-      let b1 = new l1.Sprite();
-      p1.overlaps(b1, checkCatch);
-    }
-    if (l2.length < 1){
-      let b2 = new l2.Sprite();
-      p2.overlaps(b2, checkCatch);
-    }
-    if (l3.length < 1){
-      let b3 = new l3.Sprite();
-      p3.overlaps(b3, checkCatch);
-    }
-    if (l4.length < 1){
-      let b4 = new l4.Sprite();
-      p4.overlaps(b4, checkCatch);
+    if (beats.length < 5){
+      if (gameTime % 2 === 0){
+        b = new beats.Sprite();
+        b.x = random(posX);
+      }
     }
 
+    for (let i = 0; i < 4; i++){
+      p[i].visible = true;
+    }
+
+    
+    if (kb.presses('b')){
+      b = new beats.Sprite();
+      b.x = random(posX);
+    }
+
+    if (kb.pressing('w')){
+      p[0].color = cp[0];
+      if (b.overlaps(p[0])){
+        score += 10;
+        b.remove();
+      } 
+    } else {
+      p[0].color = c[0];
+    }
+
+    if (kb.pressing('a')){
+      p[1].color = cp[1];
+      if (b.overlaps(p[1])){
+        score += 10;
+        b.remove();
+      } 
+    } else {
+      p[1].color = c[1];
+    }
+
+    if (kb.pressing('s')){
+      p[2].color = cp[2];
+      if (b.overlaps(p[2])){
+        score += 10;
+        b.remove();
+      } 
+    } else {
+      p[2].color = c[2];
+    }
+
+    if (kb.pressing('d')){
+      p[3].color = cp[3];
+      if (b.overlaps(p[3])){
+        score += 10;
+        b.remove();
+      } 
+    } else {
+      p[3].color = c[3];
+    }
   } else {
     resetGame();
   }
@@ -235,47 +262,46 @@ function topBar(){
 //   }
 }
 
-function checkCatch(player, ball){
-  if (kb.pressing('w')){
-    p1.color = "#65FD08";
-    if (dist(p1.x, p1.y, ball.x, ball.y) < 100){
-      ball.remove();
-      score += 10;
-    }
-  } else if (kb.pressing('a')){
-    p2.color = "aqua";
-    if (dist(p2.x, p2.y, ball.x, ball.y) < 100){
-      ball.remove();
-      score += 10;
-    }
-  } else if (kb.pressing('s')){
-    p3.color = "red";
-    if (dist(p3.x, p3.y, ball.x, ball.y) < 100){
-      ball.remove();
-      score += 10;
-    }
-  } else if (kb.pressing('d')){
-    p4.color = "#CCB2D2";
-    if (dist(p4.x, p4.y, ball.x, ball.y) < 100){
-      ball.remove();
-      score += 10;
-    }
-  } else {
-    score--;
-  }
-}
+// function checkCatch(player, ball){
+//   if (kb.pressing('w')){
+//     p1.color = "#65FD08";
+//     if (dist(p1.x, p1.y, ball.x, ball.y) < 100){
+//       ball.remove();
+//       score += 10;
+//     }
+//   } else if (kb.pressing('a')){
+//     p2.color = "aqua";
+//     if (dist(p2.x, p2.y, ball.x, ball.y) < 100){
+//       ball.remove();
+//       score += 10;
+//     }
+//   } else if (kb.pressing('s')){
+//     p3.color = "red";
+//     if (dist(p3.x, p3.y, ball.x, ball.y) < 100){
+//       ball.remove();
+//       score += 10;
+//     }
+//   } else if (kb.pressing('d')){
+//     p4.color = "#CCB2D2";
+//     if (dist(p4.x, p4.y, ball.x, ball.y) < 100){
+//       ball.remove();
+//       score += 10;
+//     }
+//   } else {
+//     score--;
+//   }
+// }
 
 function resetGame(){
   score = 0;
-  balls = [];
-  l1.visible = false;
-  l2.visible = false;
-  l3.visible = false;
-  l4.visible = false;
-  p1.visible = false;
-  p2.visible = false;
-  p3.visible = false;
-  p4.visible = false;
+  // balls = [];
+  // l1.visible = false;
+  // l2.visible = false;
+  // l3.visible = false;
+  // l4.visible = false;
+  for (let i = 0; i < 4; i++){
+    p[i].visible = false;
+  }
 }
 
 // Window resized function will run when "reload" after a browser window resize
