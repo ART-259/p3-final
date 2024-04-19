@@ -1,4 +1,4 @@
-**Team :** Snack Crew
+**Team :** Snack Crew  
 **Members :** Ken Pao, Yuying Huang, Michael Martin  
 **Class:** ART 259  
 **Assignment:** Project 3  
