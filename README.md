@@ -3,7 +3,7 @@
 **Class:** ART 259  
 **Assignment:** Project 3  
 **Title:** TBD  
-**Version:** 1.4
+**Version:** 1.4  
 **Game repo :** https://github.com/ART-259/p3-final  
   
 **Reference:**  
