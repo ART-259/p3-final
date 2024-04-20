@@ -144,7 +144,7 @@ function draw() {
     }
 
     // Player interaction via keyboard : Makeymakey
-    if (kb.pressing('w')) {
+    if (kb.pressing('w') || p[0].mouse.pressing()) {
       p[0].color = cp[0];
             // check winning condition
       p[0].overlaps(beats, catchBeat);
