@@ -2,8 +2,9 @@
 **Members :** Ken Pao, Yuying Huang, Michael Martin  
 **Class:** ART 259  
 **Assignment:** Project 3  
-**Title:** <TBD>  
-**Game link :** https://github.com/ART-259/p3-final  
+**Title:** TBD  
+**Version:** 1.4
+**Game repo :** https://github.com/ART-259/p3-final  
   
 **Reference:**  
 ### P5play: https://p5play.org/learn/
