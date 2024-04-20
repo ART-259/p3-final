@@ -84,16 +84,16 @@ function setup() {
   startBtn = new Sprite(width * 0.5, height * 0.5, 200, 's');
   startBtn.color = 'lime';
   startBtn.text = 'START';
-  startBtn.textSize = 20;
+  startBtn.textSize = 30;
   startBtn.textColor = 'blue';
 
   endMessage = new Sprite(width * 0.5, height * 0.3, 1, 'n');
   endMessage.color = 'lightyellow';
   endMessage.visible = true;
-  endMessage.textSize = 20;
+  endMessage.textSize = 30;
   endMessage.textColor = 'white';
 
-  levelTime = 10;
+  levelTime = 60;
   score = 0;
   gameStart = false;
 
@@ -189,7 +189,7 @@ function draw() {
 }
 
 function topBar() {
-  textSize(20);
+  textSize(30);
   fill('white'); // set text color to blue
   textAlign(CENTER);
 
@@ -201,7 +201,7 @@ function topBar() {
     endMessage.visible = true;
     endMessage.text = 'Ready to Start in';
     if (lTime <= 3) {
-      textSize(20);
+      textSize(30);
       text(lTime.toString(), width * 0.5, height * 0.45);
     }
   } else if (lTime == 0) {
@@ -236,7 +236,7 @@ function topBar() {
       endMessage.text = "Click START to play";
       endMessage.visible = true;
       textAlign(LEFT);
-      textSize(20);
+      textSize(30);
       text('ART 259 Project 3\
         \nBy: Ken Pao, Yuying Huang, Michael Martin', width * 0.05, height * 0.7);
       text(
