@@ -2,8 +2,8 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.0
-// Game link: https://github.com/ART-259/p3-final
+// Version: 1.4
+// Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -288,3 +288,29 @@ function windowResized() {
   // Canvas is set to 95% width and height - match setup scale
   resizeCanvas(windowWidth * 0.8, windowHeight * 0.8);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// Reference:
+// P5play: https://p5play.org/learn/
+// Using sprites for interactive gaming experience
+//
+// P5 JS lib: https://p5js.org/reference/
+// Using p5.js library for building gaming infrastructure
+//
+// Team : Snack Crew
+// Members : Ken Pao, Yuying Huang, Michael Martin
+// Class: ART 259
+// Assignment: Project 3 - Final
+// Title: <TBD></TBD>
+// Game repo : https://github.com/ART-259/p3-final
+//
+// Dev comment:
+//              Version 1.0 - initial game template setup
+//              Version 1.1 - added beats and player block design (ellipse)
+//              Version 1.2 - adjust physical attribute for game mechanics - not working
+//                            create custom class and play with p5.js and p5play features
+//              Version 1.3 - readjust game mechanics - partially working
+//              Version 1.4 - is the first working state of this rhythm game.
+//
+///////////////////////////////////////////////////////////////////////////////
+
