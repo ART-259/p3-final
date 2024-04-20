@@ -144,7 +144,7 @@ function draw() {
     }
 
     // Player interaction via keyboard : Makeymakey
-    if (kb.pressing('w') || p[0].mouse.pressing()) {
+    if (kb.pressing('w')) {
       p[0].color = cp[0];
             // check winning condition
       p[0].overlaps(beats, catchBeat);
@@ -183,6 +183,22 @@ function draw() {
         beats[i].remove();
       }
     }
+
+    // adding mouse
+    if (mouseIsPressed){
+      for (let i = 0; i < p.length; i++){
+        let d = dist(mouseX, mouseY, p[i].x, p[i].y);
+        if (d < (p[i].d/2)){
+          p[i].color = cp[i];
+          p[i].overlaps(beats, catchBeat);
+        } else {
+          p[i].color = c[i];
+          p[i].overlaps(beats, letGo);
+        }
+      }
+    } 
+
+
   } else {
     resetGame();
   }
@@ -273,6 +289,10 @@ function catchBeat(player, beat) {
   score += 10;
   beat.remove();
   console.log(player.x);
+}
+
+function letGo(player, beat){
+  console.log('let go');
 }
 
 function resetGame() {
