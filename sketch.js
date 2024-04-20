@@ -2,13 +2,13 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.4
+// Version: 1.5
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
 
 let posX, c, cp;
-let bg;
+let bg, ballImgs=[];
 let p = []; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
@@ -50,15 +50,18 @@ let endMessage; // end user message
 // }
 
 function preload() {
-  bg = loadImage('image/bg.png');
+  bg = loadImage('image/bg-new.png');
+  for (let i = 1; i < 5; i++){
+    ballImgs.push(loadImage('image/Ball'+i+'.png'));
+  }
 }
 
 function setup() {
 
-  let cnv = createCanvas(windowWidth * 0.8, windowHeight * 0.8);
+  let cnv = createCanvas(windowWidth * 0.9, windowHeight * 0.9);
   cnv.parent('p3');
 
-  posX = [width * 0.2, width * 0.4, width * 0.6, width * 0.8];
+  posX = [width * 0.25, width * 0.42, width * 0.59, width * 0.75];
   c = ['green', 'blue', '#ff00ff', 'purple'];
   cp = ['lightgreen', 'aqua', 'pink', '#cbc3e3'];
   beats = new Group();
@@ -76,7 +79,7 @@ function setup() {
   // l4.color = '#CBC3E3';
 
   for (let i = 0; i < 4; i++) {
-    p.push(new Sprite(posX[i], height * 0.9, 100, 'n'));
+    p.push(new Sprite(posX[i], height * 0.93, 100, 'n'));
     p[i].color = c[i];
     p[i].visible = false;
   }
@@ -90,7 +93,7 @@ function setup() {
   endMessage = new Sprite(width * 0.5, height * 0.3, 1, 'n');
   endMessage.color = 'lightyellow';
   endMessage.visible = true;
-  endMessage.textSize = 30;
+  endMessage.textSize = 28;
   endMessage.textColor = 'white';
 
   levelTime = 60;
@@ -130,6 +133,12 @@ function draw() {
 
         b = new beats.Sprite();
         b.x = random(posX);
+        for (let i = 0; i < ballImgs.length; i++){
+          if (b.x == posX[i]){
+            ballImgs[i].resize(100, 100);
+            b.img = ballImgs[i];
+          }
+        }
       }
     }
 
@@ -150,6 +159,7 @@ function draw() {
       p[0].overlaps(beats, catchBeat);
     } else {
       p[0].color = c[0];
+      p[0].overlaps(beats, letGo);
     }
 
     if (kb.pressing('a')) {
@@ -158,6 +168,7 @@ function draw() {
       p[1].overlaps(beats, catchBeat);
     } else {
       p[1].color = c[1];
+      p[1].overlaps(beats, letGo);
     }
 
     if (kb.pressing('s')) {
@@ -166,6 +177,7 @@ function draw() {
       p[2].overlaps(beats, catchBeat);
     } else {
       p[2].color = c[2];
+      p[2].overlaps(beats, letGo);
     }
 
     if (kb.pressing('d')) {
@@ -174,6 +186,7 @@ function draw() {
       p[3].overlaps(beats, catchBeat);
     } else {
       p[3].color = c[3];
+      p[3].overlaps(beats, letGo);
     }
 
           // check losing condition
@@ -183,6 +196,22 @@ function draw() {
         beats[i].remove();
       }
     }
+
+    // adding mouse
+    if (mouseIsPressed){
+      for (let i = 0; i < p.length; i++){
+        let d = dist(mouseX, mouseY, p[i].x, p[i].y);
+        if (d < (p[i].d/2)){
+          p[i].color = cp[i];
+          p[i].overlaps(beats, catchBeat);
+        } else {
+          p[i].color = c[i];
+          p[i].overlaps(beats, letGo);
+        }
+      }
+    } 
+
+
   } else {
     resetGame();
   }
@@ -241,10 +270,10 @@ function topBar() {
         \nBy: Ken Pao, Yuying Huang, Michael Martin', width * 0.05, height * 0.7);
       text(
         'Rules:\
-        \nTap W A S D to catch the beat\
+        \nTap W A S D (or mouse) to catch the beat\
         \nEach perfect catch = +10 points\
         \nEach missed beat   = -1 point\
-        \nMatch as many beats as you can.', width * 0.05, height * 0.8);
+        \nCatch as many beats as you can.', width * 0.05, height * 0.8);
     }
   }
 
@@ -273,6 +302,10 @@ function catchBeat(player, beat) {
   score += 10;
   beat.remove();
   console.log(player.x);
+}
+
+function letGo(player, beat){
+  console.log('missed beat');
 }
 
 function resetGame() {
@@ -311,6 +344,7 @@ function windowResized() {
 //                            create custom class and play with p5.js and p5play features
 //              Version 1.3 - readjust game mechanics - partially working
 //              Version 1.4 - is the first working state of this rhythm game.
+//              Version 1.5 - add mouse input for fun
 //
 ///////////////////////////////////////////////////////////////////////////////
 
