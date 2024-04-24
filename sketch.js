@@ -50,16 +50,16 @@ function setup() {
   }
 
   startBtn = new Sprite(width * 0.5, height * 0.5, 200, 's');
-  startBtn.color = 'lime';
+  startBtn.color = 'yellow';
   startBtn.text = 'START';
-  startBtn.textSize = 30;
-  startBtn.textColor = 'purple';
+  startBtn.textSize = 50;
+  startBtn.textColor = '#cbc3e3';
 
   endMessage = new Sprite(width * 0.5, height * 0.3, 1, 'n');
-  endMessage.color = 'lightyellow';
+  endMessage.color = 'purple';
   endMessage.visible = true;
   endMessage.textSize = 28;
-  endMessage.textColor = 'white';
+  endMessage.textColor = '#cbc3e3';
 
   levelTime = 60;
   score = 0;
@@ -182,15 +182,21 @@ function topBar() {
       endMessage.text = "Click START to play";
       endMessage.visible = true;
       textAlign(LEFT);
-      textSize(30);
-      text('ART 259 Project 3\
-        \nBy: Ken Pao, Yuying Huang, Michael Martin', width * 0.05, height * 0.7);
+      textSize(22);
+      text('ART 259\
+        \nProject 3\
+        \nBy: Ken Pao,\
+        \nYuying Huang,\
+        \nMichael Martin', width * 0.02, height * 0.15);
       text(
         'Rules:\
-        \nTap W A S D (or mouse) to catch the beat\
-        \nEach perfect catch = +10 points\
-        \nEach missed beat   = -1 point\
-        \nCatch as many beats as you can.', width * 0.05, height * 0.8);
+        \n\nTap W A S D \
+        \nto catch a beat\
+        \n\nPerfect = +50 pts\
+        \nGreat   = +10 pts\
+        \nMissed  =  -1 pt\
+        \n\nGood Luck\
+        \nand have fun!', width * 0.02, height * 0.5);
     }
   }
 
