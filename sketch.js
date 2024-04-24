@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.6
+// Version: 1.7
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ let bg, ballImgs=[]; // Images
 let p = []; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
-let score; // Score
+let score, pc, gc, mc; // Score
 let beats=[], b; // Beats to keep track of gameplay
 let gameTime, startTime, lTime, levelTime; // Timing variables
 let endMessage; // end user message
@@ -50,7 +50,6 @@ function setup() {
   }
 
   startBtn = new Sprite(width * 0.5, height * 0.5, 200, 's');
-  startBtn.color = 'yellow';
   startBtn.text = 'START';
   startBtn.textSize = 50;
   startBtn.textColor = '#cbc3e3';
@@ -61,8 +60,11 @@ function setup() {
   endMessage.textSize = 28;
   endMessage.textColor = '#cbc3e3';
 
-  levelTime = 60;
+  levelTime = 10;
   score = 0;
+  pc = 0;
+  gc = 0;
+  mc = 0;
   gameStart = false;
 }
 
@@ -76,10 +78,10 @@ function draw() {
   topBar();
 
   if (startBtn.mouse.hovering()) {
-    startBtn.color = 'yellow';
+    startBtn.color = 'green';
     cursor(HAND);
   } else {
-    startBtn.color = 'lime';
+    startBtn.color = 'purple';
     cursor(ARROW);
   }
 
@@ -105,6 +107,7 @@ function draw() {
       p[i].visible = true;
       if (kb.pressing(k[i])){
         p[i].color = cp[i];
+        // check winning condition
         catchBeat(i);
       } else {
         p[i].color = c[i];
@@ -119,14 +122,7 @@ function draw() {
     }
 
     // check losing condition
-    for (let i = 0; i < beats.length; i++) {
-      for (let j = 0; j < beats[i].length; j++) {
-        if (beats[i][j].y > (height + 50)) {
-          score--;
-          beats[i][j].remove();
-        }
-      }
-    }
+    loseBeat();
 
   // gameStart = false
   } else {
@@ -169,9 +165,10 @@ function topBar() {
     ///// stop game when time reaches 0 /////
     else {
       text('Time : 0', width * 0.85, height * 0.05);
-      gameStart = false;
-      startBtn.visible = true;
-      startBtn.collider = 's';
+      // gameStart = false;
+      endScreen();
+      // startBtn.visible = true;
+      // startBtn.collider = 's';
 
 
 
@@ -229,22 +226,68 @@ function catchBeat(i) {
       // Perfect
       if (temp <= 25){
         score += 50;
+        pc++;
         beats[i][j].remove();
       // Great
       } else if (temp <= 50){
         score += 10;
+        gc++;
         beats[i][j].remove();
       }
     }
   }
 }
 
+// Check Losing Condition
+function loseBeat() {
+  for (let i = 0; i < beats.length; i++) {
+    for (let j = 0; j < beats[i].length; j++) {
+      if (beats[i][j].y > (height + 50)) {
+        score--;
+        mc++;
+        beats[i][j].remove();
+      }
+    }
+  }
+}
+
+function endScreen() {
+  endMessage.text=`You Win!
+  \n\nPerfect : ${pc}
+  \nGreat : ${gc}
+  \nMissed : ${mc}
+  \nTotal Score : ${score}`;
+  endMessage.visible = true;
+  startBtn.text = 'Replay';
+// gameStart = false;
+
+for (let i = 0; i < 4; i++) {
+  p[i].visible = false;
+  beats[i].removeAll();
+}
+startBtn.y = height * 0.7;
+startBtn.visible = true;
+startBtn.collider = 's';
+if (startBtn.mouse.hovering()) {
+  startBtn.color = 'green';
+  cursor(HAND);
+} else {
+  startBtn.color = 'purple';
+  cursor(ARROW);
+}
+
+if (startBtn.mouse.presses()) {
+gameStart = false;
+}
+}
+
+// Reset Game
 function resetGame() {
   score = 0;
-  for (let i = 0; i < 4; i++) {
-    p[i].visible = false;
-    beats[i].removeAll();
-  }
+  pc = 0;
+  gc = 0;
+  mc = 0;
+  
 }
 
 // Window resized function will run when "reload" after a browser window resize
@@ -277,6 +320,7 @@ function windowResized() {
 //              Version 1.4 - is the first working state of this rhythm game.
 //              Version 1.5 - add mouse input for fun
 //              Version 1.6 - fix beats catching algorithm and reconstruct beats array of arrays
+//              Version 1.7 - add end screen
 //
 ///////////////////////////////////////////////////////////////////////////////
 
