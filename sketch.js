@@ -1,53 +1,21 @@
-// Team : Ken Pao, Yuying Huang, Michael 
+// Team : Ken Pao, Yuying Huang, Michael Martin
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.5
+// Version: 1.6
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
 
-let posX, c, cp;
-let bg, ballImgs=[];
+let posX, c, cp, k; // Postion-X, Color, Color-Pressed, Key;
+let bg, ballImgs=[]; // Images
 let p = []; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
 let score; // Score
-let beats, b; // Beats to keep track of gameplay
-let gameTime, startTime, ltime, levelTime; // Timing variables
+let beats=[], b; // Beats to keep track of gameplay
+let gameTime, startTime, lTime, levelTime; // Timing variables
 let endMessage; // end user message
-
-// class Beat {
-//   constructor(x, y){
-//     this.x = x;
-//     this.y = y;
-//     this.s = new Sprite(this.x, this.y, 100, 'd');
-//     this.on = false;
-//     this.s.vel.y = 3;
-//     this.s.bounciness = 0;
-//     this.s.rotationLock = true;
-//   }
-
-//   show(){
-//     if (this.on){
-//       this.s;
-//     } else {
-//       console.log('no beat');
-//     }
-//   }
-
-//   setBeat(){
-//     this.on = !this.on;
-//   }
-
-//   match(px, py){
-//     if (dist(x,y,px,py)<100){
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-// }
 
 function preload() {
   bg = loadImage('image/bg-new.png');
@@ -64,31 +32,28 @@ function setup() {
   posX = [width * 0.25, width * 0.42, width * 0.59, width * 0.75];
   c = ['green', 'blue', '#ff00ff', 'purple'];
   cp = ['lightgreen', 'aqua', 'pink', '#cbc3e3'];
-  beats = new Group();
-  beats.x = random(posX);
-  beats.y = height * 0.2;
-  beats.d = 100;
-  beats.collider = 'd';
-  beats.vel.y = 3;
-  // beats.visible = false;
-  beats.color = '#6d3ead';
-
-  // l1.color = 'lightgreen';
-  // l2.color = 'lightblue';
-  // l3.color = 'pink';
-  // l4.color = '#CBC3E3';
+  k = ['w','a','s','d'];
 
   for (let i = 0; i < 4; i++) {
     p.push(new Sprite(posX[i], height * 0.93, 100, 'n'));
     p[i].color = c[i];
     p[i].visible = false;
+
+    beats.push(new Group());
+    beats[i].x = posX[i];
+    beats[i].y = height * 0.2;
+    beats[i].d = 100;
+    beats[i].vel.y = 3;
+    beats[i].color = '#cbc3e3';
+    ballImgs[i].resize(100, 100);
+    beats[i].img = ballImgs[i];
   }
 
   startBtn = new Sprite(width * 0.5, height * 0.5, 200, 's');
   startBtn.color = 'lime';
   startBtn.text = 'START';
   startBtn.textSize = 30;
-  startBtn.textColor = 'blue';
+  startBtn.textColor = 'purple';
 
   endMessage = new Sprite(width * 0.5, height * 0.3, 1, 'n');
   endMessage.color = 'lightyellow';
@@ -99,7 +64,6 @@ function setup() {
   levelTime = 60;
   score = 0;
   gameStart = false;
-
 }
 
 function draw() {
@@ -129,89 +93,42 @@ function draw() {
 
     // create beats
     if (gameTime % 2 === 0) {
-      if (beats.length < 5) {
-
-        b = new beats.Sprite();
-        b.x = random(posX);
-        for (let i = 0; i < ballImgs.length; i++){
-          if (b.x == posX[i]){
-            ballImgs[i].resize(100, 100);
-            b.img = ballImgs[i];
-          }
+      for (let i = 0; i < beats.length; i++) {
+        if (beats[i].length < 1) {
+          b = new beats[i].Sprite();
         }
       }
     }
 
+    // Check keyboard pressing key - MakeyMakey mapped keys pressing
     for (let i = 0; i < 4; i++) {
       p[i].visible = true;
-    }
-
-
-    if (kb.presses('b')) {
-      b = new beats.Sprite();
-      b.x = random(posX);
-    }
-
-    // Player interaction via keyboard : Makeymakey
-    if (kb.pressing('w')) {
-      p[0].color = cp[0];
-            // check winning condition
-      p[0].overlaps(beats, catchBeat);
-    } else {
-      p[0].color = c[0];
-      p[0].overlaps(beats, letGo);
-    }
-
-    if (kb.pressing('a')) {
-      p[1].color = cp[1];
-            // check winning condition
-      p[1].overlaps(beats, catchBeat);
-    } else {
-      p[1].color = c[1];
-      p[1].overlaps(beats, letGo);
-    }
-
-    if (kb.pressing('s')) {
-      p[2].color = cp[2];
-            // check winning condition
-      p[2].overlaps(beats, catchBeat);
-    } else {
-      p[2].color = c[2];
-      p[2].overlaps(beats, letGo);
-    }
-
-    if (kb.pressing('d')) {
-      p[3].color = cp[3];
-            // check winning condition
-      p[3].overlaps(beats, catchBeat);
-    } else {
-      p[3].color = c[3];
-      p[3].overlaps(beats, letGo);
-    }
-
-          // check losing condition
-    for (let i = 0; i < beats.length; i++) {
-      if (beats[i].y > height) {
-        score--;
-        beats[i].remove();
+      if (kb.pressing(k[i])){
+        p[i].color = cp[i];
+        catchBeat(i);
+      } else {
+        p[i].color = c[i];
       }
     }
 
-    // adding mouse
-    if (mouseIsPressed){
-      for (let i = 0; i < p.length; i++){
-        let d = dist(mouseX, mouseY, p[i].x, p[i].y);
-        if (d < (p[i].d/2)){
-          p[i].color = cp[i];
-          p[i].overlaps(beats, catchBeat);
-        } else {
-          p[i].color = c[i];
-          p[i].overlaps(beats, letGo);
+    // Manually generate beat
+    if (kb.presses('b')) {
+      let index = Math.floor(random(4));
+      b = new beats[index].Sprite();
+      console.log('index',index,'b',b,'beats[index].length',beats[index].length);
+    }
+
+    // check losing condition
+    for (let i = 0; i < beats.length; i++) {
+      for (let j = 0; j < beats[i].length; j++) {
+        if (beats[i][j].y > (height + 50)) {
+          score--;
+          beats[i][j].remove();
         }
       }
-    } 
+    }
 
-
+  // gameStart = false
   } else {
     resetGame();
   }
@@ -219,7 +136,7 @@ function draw() {
 
 function topBar() {
   textSize(30);
-  fill('white'); // set text color to blue
+  fill('#cbc3e3'); // set text color to light purple
   textAlign(CENTER);
 
   ///// timer function /////
@@ -298,21 +215,29 @@ function topBar() {
   //   }
 }
 
-function catchBeat(player, beat) {
-  score += 10;
-  beat.remove();
-  console.log(player.x);
-}
-
-function letGo(player, beat){
-  console.log('missed beat');
+// Check Winning Condition
+function catchBeat(i) {
+  if (beats[i].length > 0){
+    for (let j = 0; j < beats[i].length; j++){
+      let temp = Math.abs(p[i].y - beats[i][j].y);
+      // Perfect
+      if (temp <= 25){
+        score += 50;
+        beats[i][j].remove();
+      // Great
+      } else if (temp <= 50){
+        score += 10;
+        beats[i][j].remove();
+      }
+    }
+  }
 }
 
 function resetGame() {
   score = 0;
-  beats.removeAll();
   for (let i = 0; i < 4; i++) {
     p[i].visible = false;
+    beats[i].removeAll();
   }
 }
 
@@ -345,6 +270,7 @@ function windowResized() {
 //              Version 1.3 - readjust game mechanics - partially working
 //              Version 1.4 - is the first working state of this rhythm game.
 //              Version 1.5 - add mouse input for fun
+//              Version 1.6 - fix beats catching algorithm and reconstruct beats array of arrays
 //
 ///////////////////////////////////////////////////////////////////////////////
 
