@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.7
+// Version: 1.8
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,12 +15,16 @@ let gameStart; // Game Start state
 let score, pc, gc, mc; // Score
 let beats=[], b; // Beats to keep track of gameplay
 let gameTime, startTime, lTime, levelTime; // Timing variables
-let endMessage; // end user message
+let endMessage; // End user message
+let song=[], songIndex; // Music
 
 function preload() {
   bg = loadImage('image/bg-new.png');
   for (let i = 1; i < 5; i++){
     ballImgs.push(loadImage('image/Ball'+i+'.png'));
+  }
+  for (let i = 0; i < 6; i++){
+    song.push(loadSound('sound/s'+i+'.mp3'));
   }
 }
 
@@ -60,7 +64,7 @@ function setup() {
   endMessage.textSize = 28;
   endMessage.textColor = '#cbc3e3';
 
-  levelTime = 10;
+  levelTime = 30;
   score = 0;
   pc = 0;
   gc = 0;
@@ -72,6 +76,17 @@ function draw() {
   clear();
 
   background(bg);
+  textSize(22);
+  textAlign(LEFT);
+  text(
+    'Rules:\
+    \n\nTap W A S D \
+    \nto catch a beat\
+    \n\nPerfect = +50 pts\
+    \nGreat   = +10 pts\
+    \nMissed  =  -1 pt\
+    \n\nGood Luck\
+    \nand have fun!', width * 0.85, height * 0.5);
 
   noStroke();
 
@@ -89,10 +104,13 @@ function draw() {
     startBtn.visible = false;
     startBtn.collider = 'n';
     startTime = millis();
+    songIndex = Math.floor(random(6));
   }
 
   if (gameStart) {
 
+    playSong(songIndex);
+    
     // create beats
     if (gameTime % 2 === 0) {
       for (let i = 0; i < beats.length; i++) {
@@ -153,25 +171,17 @@ function topBar() {
 
   ///// Start game time when click Start /////
   if (gameStart) {
+    
     text('Score: ' + score.toString(), width * 0.5, height * 0.05);
 
     ///// prevent time to run over 0 /////
     if (gameTime > 0) {
       text('Time : ' + gameTime.toString(), width * 0.85, height * 0.05);
-
-
-
     }
     ///// stop game when time reaches 0 /////
     else {
       text('Time : 0', width * 0.85, height * 0.05);
-      // gameStart = false;
       endScreen();
-      // startBtn.visible = true;
-      // startBtn.collider = 's';
-
-
-
     }
   } else {
     // Show Title of Game and Instructions
@@ -185,15 +195,16 @@ function topBar() {
         \nBy: Ken Pao,\
         \nYuying Huang,\
         \nMichael Martin', width * 0.02, height * 0.15);
-      text(
-        'Rules:\
-        \n\nTap W A S D \
-        \nto catch a beat\
-        \n\nPerfect = +50 pts\
-        \nGreat   = +10 pts\
-        \nMissed  =  -1 pt\
-        \n\nGood Luck\
-        \nand have fun!', width * 0.02, height * 0.5);
+        
+      // text(
+      //   'Rules:\
+      //   \n\nTap W A S D \
+      //   \nto catch a beat\
+      //   \n\nPerfect = +50 pts\
+      //   \nGreat   = +10 pts\
+      //   \nMissed  =  -1 pt\
+      //   \n\nGood Luck\
+      //   \nand have fun!', width * 0.02, height * 0.5);
     }
   }
 
@@ -251,7 +262,16 @@ function loseBeat() {
   }
 }
 
+function playSong(i){
+  
+  console.log('random song i',i);
+  if (!song[i].isPlaying()){
+    song[i].play();
+  }
+}
+
 function endScreen() {
+
   endMessage.text=`You Win!
   \n\nPerfect : ${pc}
   \nGreat : ${gc}
@@ -260,6 +280,11 @@ function endScreen() {
   endMessage.visible = true;
   startBtn.text = 'Replay';
 // gameStart = false;
+for (let i = 0; i < song.length; i++){
+  if (song[i].isPlaying()){
+    song[i].stop();
+  }
+}
 
 for (let i = 0; i < 4; i++) {
   p[i].visible = false;
@@ -321,6 +346,7 @@ function windowResized() {
 //              Version 1.5 - add mouse input for fun
 //              Version 1.6 - fix beats catching algorithm and reconstruct beats array of arrays
 //              Version 1.7 - add end screen
+//              Version 1.8 - add song and play music only during game play
 //
 ///////////////////////////////////////////////////////////////////////////////
 
