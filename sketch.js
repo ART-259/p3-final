@@ -124,7 +124,7 @@ function draw() {
     startTime = millis();
     songIndex = Math.floor(random(song.length));
     if (audiocontext.state !== 'running'){
-      audiocontext.start();
+      audiocontext.resume();
     }
   } 
 
