@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 2.0
+// Version: 2.1
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ let beats=[], b; // Beats to keep track of gameplay
 let gameTime, startTime, lTime, levelTime; // Timing variables
 let endMessage; // End user message
 let catchMessage=[], catchImg=[]; // Display if beat is catched
-let song=[], songIndex, amp; // Music
+let song=[], songIndex, amp, audiocontext; // Music
 
 function preload() {
 
@@ -83,6 +83,7 @@ function setup() {
   gc = 0;
   mc = 0;
   gameStart = false;
+  audiocontext = getAudioContext();
 }
 
 function draw() {
@@ -122,22 +123,18 @@ function draw() {
     startBtn.collider = 'n';
     startTime = millis();
     songIndex = Math.floor(random(song.length));
+    if (audiocontext.state !== 'running'){
+      audiocontext.start();
+    }
   } 
 
   if (gameStart) {
 
-
+    // play song
     playSong(songIndex);
     
     // create beats
     createBeats(songIndex);
-    // if (gameTime % 2 === 0) {
-    //   for (let i = 0; i < beats.length; i++) {
-    //     if (beats[i].length < 1) {
-    //       b = new beats[i].Sprite();
-    //     }
-    //   }
-    // }
 
     // Check keyboard pressing key - MakeyMakey mapped keys pressing
     for (let i = 0; i < 4; i++) {
@@ -224,8 +221,10 @@ function createBeats(i){
     if (song[i].isPlaying()){
       amp.toggleNormalize(1);
       let level = amp.getLevel();
-      fill('white');
-      rect(10,10,level,10);
+      let l = level * 100;
+      for (let x=0; x<l; x++){
+        text('|',x+20,35);
+      }
       if (level > 0){
         if (level < 0.2){
           if (beats[0].length < 1){
@@ -308,11 +307,24 @@ function loseBeat() {
 }
 
 function playSong(i){
-  console.log('random song i',i);
-  if (!song[i].isPlaying()){
-    song[i].play();
-    amp = new p5.Amplitude();
-    amp.setInput(song[i]);
+  // only play song when playing game (i.e game time > 0)
+  if (gameTime > 0){
+    console.log('random song i',i);
+    if (!song[i].isPlaying()){
+      // if (audiocontext.state !== 'running'){
+      //   audiocontext.resume();
+      // }
+      song[i].play();
+      amp = new p5.Amplitude();
+      amp.setInput(song[i]);
+    } 
+    // else {
+    //   for (let x = 0; x < song.length; x++){
+    //     if (x !== i){
+    //       song[x].stop();
+    //     }
+    //   }
+    // }
   }
 }
 
@@ -324,9 +336,10 @@ function endScreen() {
   text(m, width*0.3, height*0.2);
   textSize(50);
   text(s, width*0.65, height*0.22);
-  // endMessage.visible = true;
+  textSize(30);
+  text('Press spacebar to replay', width*0.5, height*0.5);
   startBtn.text = 'Replay';
-  // gameStart = false;
+
   for (let i = 0; i < song.length; i++){
     if (song[i].isPlaying()){
       song[i].stop();
@@ -400,6 +413,12 @@ function windowResized() {
 //                            add Perfect Good Miss feedback
 //                            update start / replay key to spacebar
 //                            adjust end screen parameters
+//              Version 2.1 - fix replay sound issue
+//                            fix audioContext for Chrome 7.1+ issue
+//                            add temp favicon
 //
+// ** Note: **  
+// All graphics are handcrafted and created by Snack Crew team. 
+// Temp Favicon: https://www.flaticon.com/free-icons/musical-note
 ///////////////////////////////////////////////////////////////////////////////
 
