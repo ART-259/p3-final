@@ -382,6 +382,7 @@ function windowResized() {
 // Assignment: Project 3 - Final
 // Title: <TBD></TBD>
 // Game repo : https://github.com/ART-259/p3-final
+// Gameplay link : https://art-259.github.io/p3-final/
 //
 // Dev comment:
 //              Version 1.0 - initial game template setup

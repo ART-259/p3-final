@@ -5,6 +5,7 @@
 **Title:** TBD  
 **Version:** 2.0  
 **Game repo :** https://github.com/ART-259/p3-final  
+**Gameplay link :** https://art-259.github.io/p3-final/    
   
 **Reference:**  
 ### P5play: https://p5play.org/learn/
