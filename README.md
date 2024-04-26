@@ -17,8 +17,8 @@
 ### MakeyMakey: https://makeymakey.com  
 > Using makeymakey for physical and electronic controller components  
 
-### P5 JS lib: https://p5js.org/reference/  
-> Using p5.js library for building gaming infrastructure  
+### Free sound files: https://pixabay.com/music/search/game/  
+> Using loyalty free sound files for game  
 
 **Note:**  
 All graphics are handcrafted and created by Snack Crew team.  
