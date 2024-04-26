@@ -2,13 +2,13 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 1.8
+// Version: 2.0
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
 
 let posX, c, cp, k; // Postion-X, Color, Color-Pressed, Key;
-let bg, ballImgs=[]; // Images
+let bg=[], ballImgs=[]; // Images
 let p = []; // Player catchers
 let startBtn; // Start Button
 let gameStart; // Game Start state
@@ -16,14 +16,18 @@ let score, pc, gc, mc; // Score
 let beats=[], b; // Beats to keep track of gameplay
 let gameTime, startTime, lTime, levelTime; // Timing variables
 let endMessage; // End user message
-let song=[], songIndex; // Music
+let catchMessage=[], catchImg=[]; // Display if beat is catched
+let song=[], songIndex, amp; // Music
 
 function preload() {
-  bg = loadImage('image/bg-new.png');
-  for (let i = 1; i < 5; i++){
-    ballImgs.push(loadImage('image/Ball'+i+'.png'));
+
+  for (let i = 0; i < 3; i++){
+    catchImg.push(loadImage('image/cm'+i+'.png'));
   }
-  for (let i = 0; i < 6; i++){
+
+  for (let i = 0; i < 4; i++){
+    bg.push(loadImage('image/bg'+i+'.png'));
+    ballImgs.push(loadImage('image/Ball'+i+'.png'));
     song.push(loadSound('sound/s'+i+'.mp3'));
   }
 }
@@ -51,12 +55,21 @@ function setup() {
     beats[i].color = '#cbc3e3';
     ballImgs[i].resize(100, 100);
     beats[i].img = ballImgs[i];
+
+    catchMessage.push(new Group());
+    catchMessage[i].x = posX[i];
+    catchMessage[i].y = height * 0.5;
+    catchMessage[i].d = 1;
+    catchMessage[i].vel.y = -1;
+    catchMessage[i].life = 60;
+    catchMessage[i].collider = 'n';
   }
 
   startBtn = new Sprite(width * 0.5, height * 0.5, 200, 's');
   startBtn.text = 'START';
   startBtn.textSize = 50;
   startBtn.textColor = '#cbc3e3';
+  startBtn.color = 'darkblue';
 
   endMessage = new Sprite(width * 0.5, height * 0.3, 1, 'n');
   endMessage.color = 'purple';
@@ -75,15 +88,19 @@ function setup() {
 function draw() {
   clear();
 
-  background(bg);
-  textSize(22);
+  if (songIndex != null){
+  background(bg[songIndex]);
+  } else {
+  background(bg[0]);
+  }
+  textSize(20);
   textAlign(LEFT);
   text(
     'Rules:\
     \n\nTap W A S D \
     \nto catch a beat\
     \n\nPerfect = +50 pts\
-    \nGreat   = +10 pts\
+    \nGood   = +10 pts\
     \nMissed  =  -1 pt\
     \n\nGood Luck\
     \nand have fun!', width * 0.85, height * 0.5);
@@ -92,33 +109,35 @@ function draw() {
 
   topBar();
 
-  if (startBtn.mouse.hovering()) {
-    startBtn.color = 'green';
-    cursor(HAND);
-  } else {
-    startBtn.color = 'purple';
-    cursor(ARROW);
-  }
+  // if (startBtn.mouse.hovering()) {
+  //   startBtn.color = 'green';
+  //   cursor(HAND);
+  // } else {
+  //   startBtn.color = 'purple';
+  //   cursor(ARROW);
+  // }
 
-  if (startBtn.mouse.presses()) {
+  if (kb.pressing('SPACEBAR')) {
     startBtn.visible = false;
     startBtn.collider = 'n';
     startTime = millis();
-    songIndex = Math.floor(random(6));
-  }
+    songIndex = Math.floor(random(song.length));
+  } 
 
   if (gameStart) {
+
 
     playSong(songIndex);
     
     // create beats
-    if (gameTime % 2 === 0) {
-      for (let i = 0; i < beats.length; i++) {
-        if (beats[i].length < 1) {
-          b = new beats[i].Sprite();
-        }
-      }
-    }
+    createBeats(songIndex);
+    // if (gameTime % 2 === 0) {
+    //   for (let i = 0; i < beats.length; i++) {
+    //     if (beats[i].length < 1) {
+    //       b = new beats[i].Sprite();
+    //     }
+    //   }
+    // }
 
     // Check keyboard pressing key - MakeyMakey mapped keys pressing
     for (let i = 0; i < 4; i++) {
@@ -144,6 +163,7 @@ function draw() {
 
   // gameStart = false
   } else {
+
     resetGame();
   }
 }
@@ -186,47 +206,65 @@ function topBar() {
   } else {
     // Show Title of Game and Instructions
     if ((startBtn.visible) && (startBtn.text === 'START')) {
-      endMessage.text = "Click START to play";
+      endMessage.text = "Press Spacebar to play";
       endMessage.visible = true;
       textAlign(LEFT);
-      textSize(22);
+      textSize(20);
       text('ART 259\
         \nProject 3\
         \nBy: Ken Pao,\
         \nYuying Huang,\
         \nMichael Martin', width * 0.02, height * 0.15);
-        
-      // text(
-      //   'Rules:\
-      //   \n\nTap W A S D \
-      //   \nto catch a beat\
-      //   \n\nPerfect = +50 pts\
-      //   \nGreat   = +10 pts\
-      //   \nMissed  =  -1 pt\
-      //   \n\nGood Luck\
-      //   \nand have fun!', width * 0.02, height * 0.5);
     }
   }
+}
 
-  //   // Mute control
-  //   if (soundBtn.mouse.presses()) {
-  //     isMute = !isMute;
-  //     console.log('isMute',isMute);
-  //   }
-
-  //   if (isMute){
-  //     if (soundBtn.mouse.hovering()){
-  //       soundBtn.img = soundHoverOffImg;
-  //     } else {
-  //       soundBtn.img = soundOffImg;
-  //     }
-  //   } else {
-  //     if (soundBtn.mouse.hovering()){
-  //       soundBtn.img = soundHoverOnImg;
-  //     } else {
-  //       soundBtn.img = soundOnImg;
-  //     }
-  //   }
+function createBeats(i){
+  if (gameTime >= 0){
+    if (song[i].isPlaying()){
+      amp.toggleNormalize(1);
+      let level = amp.getLevel();
+      fill('white');
+      rect(10,10,level,10);
+      if (level > 0){
+        if (level < 0.2){
+          if (beats[0].length < 1){
+            new beats[0].Sprite();
+          } else if (beats[0].length < 2){
+              new beats[0].Sprite();
+          } else if (beats[0].length < 3){
+              new beats[0].Sprite();
+          }
+        } else if (level < 0.4){
+          if (beats[1].length < 1){
+            new beats[1].Sprite();
+          } else if (beats[1].length < 2){
+              new beats[1].Sprite();
+          } else if (beats[1].length < 3){
+              new beats[1].Sprite();
+          }
+        } else if (level < 0.6){
+          if (beats[2].length < 1){
+            new beats[2].Sprite();
+          } else if (beats[2].length < 2){
+              new beats[2].Sprite();
+          } else if (beats[2].length < 3){
+              new beats[2].Sprite();
+          }
+        } else {
+          if (beats[3].length < 1){
+            new beats[3].Sprite();
+          } else if (beats[3].length < 2){
+              new beats[3].Sprite();
+          } else if (beats[3].length < 3){
+              new beats[3].Sprite();
+          }
+        }
+      } else {
+        console.log('level',level);
+      }
+    }
+  }
 }
 
 // Check Winning Condition
@@ -238,11 +276,15 @@ function catchBeat(i) {
       if (temp <= 25){
         score += 50;
         pc++;
+        let cm = new catchMessage[i].Sprite();
+        cm.img = catchImg[0];
         beats[i][j].remove();
-      // Great
+      // Good
       } else if (temp <= 50){
         score += 10;
         gc++;
+        let cm = new catchMessage[i].Sprite();
+        cm.img = catchImg[1];
         beats[i][j].remove();
       }
     }
@@ -253,9 +295,12 @@ function catchBeat(i) {
 function loseBeat() {
   for (let i = 0; i < beats.length; i++) {
     for (let j = 0; j < beats[i].length; j++) {
+      // Miss
       if (beats[i][j].y > (height + 50)) {
         score--;
         mc++;
+        let cm = new catchMessage[i].Sprite();
+        cm.img = catchImg[2];
         beats[i][j].remove();
       }
     }
@@ -263,47 +308,49 @@ function loseBeat() {
 }
 
 function playSong(i){
-  
   console.log('random song i',i);
   if (!song[i].isPlaying()){
     song[i].play();
+    amp = new p5.Amplitude();
+    amp.setInput(song[i]);
   }
 }
 
 function endScreen() {
-
-  endMessage.text=`You Win!
-  \n\nPerfect : ${pc}
-  \nGreat : ${gc}
-  \nMissed : ${mc}
-  \nTotal Score : ${score}`;
-  endMessage.visible = true;
+  let m = `Perfect : ${pc}
+         \nGood    : ${gc}
+         \nMissed  : ${mc}`;
+  let s =  `Final Score\n\n${score}`;
+  text(m, width*0.3, height*0.2);
+  textSize(50);
+  text(s, width*0.65, height*0.22);
+  // endMessage.visible = true;
   startBtn.text = 'Replay';
-// gameStart = false;
-for (let i = 0; i < song.length; i++){
-  if (song[i].isPlaying()){
-    song[i].stop();
+  // gameStart = false;
+  for (let i = 0; i < song.length; i++){
+    if (song[i].isPlaying()){
+      song[i].stop();
+    }
   }
-}
 
-for (let i = 0; i < 4; i++) {
-  p[i].visible = false;
-  beats[i].removeAll();
-}
-startBtn.y = height * 0.7;
-startBtn.visible = true;
-startBtn.collider = 's';
-if (startBtn.mouse.hovering()) {
-  startBtn.color = 'green';
-  cursor(HAND);
-} else {
-  startBtn.color = 'purple';
-  cursor(ARROW);
-}
+  for (let i = 0; i < 4; i++) {
+    p[i].visible = false;
+    beats[i].removeAll();
+  }
+  startBtn.y = height * 0.7;
+  startBtn.visible = true;
+  startBtn.collider = 's';
+  // if (startBtn.mouse.hovering()) {
+  //   startBtn.color = 'green';
+  //   cursor(HAND);
+  // } else {
+  //   startBtn.color = 'purple';
+  //   cursor(ARROW);
+  // }
 
-if (startBtn.mouse.presses()) {
-gameStart = false;
-}
+  if (kb.pressing('SPACEBAR')) {
+    gameStart = false;
+  }
 }
 
 // Reset Game
@@ -347,6 +394,11 @@ function windowResized() {
 //              Version 1.6 - fix beats catching algorithm and reconstruct beats array of arrays
 //              Version 1.7 - add end screen
 //              Version 1.8 - add song and play music only during game play
+//              Version 2.0 - add background images
+//                            add create beats base on sound amplitude
+//                            add Perfect Good Miss feedback
+//                            update start / replay key to spacebar
+//                            adjust end screen parameters
 //
 ///////////////////////////////////////////////////////////////////////////////
 
