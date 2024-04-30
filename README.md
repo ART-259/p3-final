@@ -3,7 +3,7 @@
 **Class:** ART 259  
 **Assignment:** Project 3  
 **Title:** TBD  
-**Version:** 2.1  
+**Version:** 2.3  
 **Game repo :** https://github.com/ART-259/p3-final  
 **Gameplay link :** https://art-259.github.io/p3-final/    
   
