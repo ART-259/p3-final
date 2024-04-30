@@ -14,7 +14,7 @@ let startBtn; // Start Button
 let gameStart; // Game Start state
 let score, pc, gc, mc; // Score
 let beats = [], b; // Beats to keep track of gameplay
-let gameTime, startTime, lTime, levelTime; // Timing variables
+let gameTime, startTime, lTime; //, levelTime; // Timing variables
 let endMessage; // End user message
 let catchMessage = [], catchImg = []; // Display if beat is catched
 let song = [], songIndex, amp, audiocontext; // Music
@@ -30,6 +30,7 @@ function preload() {
     ballImgs.push(loadImage('image/Ball' + i + '.png'));
     song.push(loadSound('sound/s' + i + '.mp3'));
   }
+
 }
 
 function setup() {
@@ -77,8 +78,8 @@ function setup() {
   endMessage.textSize = 28;
   endMessage.textColor = '#cbc3e3';
 
-  levelTime = 30;
   songIndex = 0;
+  // levelTime = song[songIndex].duration();
   score = 0;
   pc = 0;
   gc = 0;
@@ -98,7 +99,7 @@ function draw() {
 
     // play song
     playSong(songIndex);
-
+    
     // create beats
     createBeats(songIndex);
 
@@ -137,8 +138,12 @@ function topBar() {
   textAlign(CENTER);
 
   ///// timer function /////
-  lTime = 3 - round((millis() - startTime) / 1000);
-  gameTime = levelTime + 3 - round((millis() - startTime) / 1000);
+
+    lTime = 3 - round((millis() - startTime) / 1000);
+
+    gameTime = round(song[songIndex].duration() - song[songIndex].currentTime(),0);
+  
+  
 
   if (lTime > 0) {
     endMessage.visible = true;
@@ -185,11 +190,12 @@ function topBar() {
 function createBeats(i) {
   if (gameTime >= 0) {
     if (song[i].isPlaying()) {
+      
       amp.toggleNormalize(1);
       let level = amp.getLevel();
       let l = level * 100;
       for (let x = 0; x < l; x++) {
-        text('||', x + 20, 35);
+        text('|', x + 20, 35);
       }
       if (level > 0) {
         if (level < 0.2) {
@@ -275,11 +281,25 @@ function loseBeat() {
 function playSong(i) {
   // only play song when playing game (i.e game time > 0)
   if (gameTime > 0) {
+    // if (i === 8){
+    //   rSong[0].play();
+    //   rSong[1].stop();
+    //   amp = new p5.Amplitude();
+    //   amp.setInput(rSong[0]);
+    // } else
+    // if (i == 9){
+    //   rSong[1].play();
+    //   rSong[0].stop();
+    //   amp = new p5.Amplitude();
+    //   amp.setInput(rSong[1]);
+    // } else
     if (!song[i].isPlaying()) {
       // if (audiocontext.state !== 'running'){
       //   audiocontext.resume();
       // }
       song[i].play();
+      // levelTime = round(song[i].duration(),1);
+      // startTime = round(song[i].currentTime(),1);
       amp = new p5.Amplitude();
       amp.setInput(song[i]);
     }
@@ -312,10 +332,22 @@ function startScreen(){
   noStroke();
 
   if (!gameStart){
+
     if (kb.presses('arrowDown')){
       songIndex++;
       songIndex = songIndex % song.length;
-      }
+    }
+    
+    // let temp = false;
+    // if (kb.presses('arrowUp')){
+    //   if (temp){
+    //     songIndex = 9;
+    //     temp = !temp;
+    //   } else {
+    //     songIndex = 8;
+    //     temp = !temp;
+    //   }
+    // }
     textAlign(CENTER);
     textSize(28);
     text('Current Song #'+songIndex+'\
