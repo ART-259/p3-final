@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 2.2
+// Version: 2.3
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,6 +78,7 @@ function setup() {
   endMessage.textColor = '#cbc3e3';
 
   levelTime = 30;
+  songIndex = 0;
   score = 0;
   pc = 0;
   gc = 0;
@@ -89,24 +90,7 @@ function setup() {
 function draw() {
   clear();
 
-  if (songIndex != null) {
-    background(bg[songIndex]);
-  } else {
-    background(bg[0]);
-  }
-  textSize(20);
-  textAlign(LEFT);
-  text(
-    'Rules:\
-    \n\nTap W A S D \
-    \nto catch a beat\
-    \n\nPerfect = +50 pts\
-    \nGood   = +10 pts\
-    \nMissed  =  -1 pt\
-    \n\nGood Luck\
-    \nand have fun!', width * 0.85, height * 0.5);
-
-  noStroke();
+  startScreen();
 
   topBar();
 
@@ -143,15 +127,7 @@ function draw() {
   } else {
 
     resetGame();
-    if (kb.pressing('SPACEBAR')) {
-      startBtn.visible = false;
-      startBtn.collider = 'n';
-      startTime = millis();
-      songIndex = Math.floor(random(song.length));
-      if (audiocontext.state !== 'running') {
-        audiocontext.resume();
-      }
-    }
+    
   }
 }
 
@@ -213,7 +189,7 @@ function createBeats(i) {
       let level = amp.getLevel();
       let l = level * 100;
       for (let x = 0; x < l; x++) {
-        text('|', x + 20, 35);
+        text('||', x + 20, 35);
       }
       if (level > 0) {
         if (level < 0.2) {
@@ -299,7 +275,6 @@ function loseBeat() {
 function playSong(i) {
   // only play song when playing game (i.e game time > 0)
   if (gameTime > 0) {
-    console.log('random song i', i);
     if (!song[i].isPlaying()) {
       // if (audiocontext.state !== 'running'){
       //   audiocontext.resume();
@@ -315,6 +290,45 @@ function playSong(i) {
     //     }
     //   }
     // }
+  }
+}
+
+function startScreen(){
+  
+  background(bg[songIndex]);
+  
+  textSize(20);
+  textAlign(LEFT);
+  text(
+    'Rules:\
+    \n\nTap W A S D \
+    \nto catch a beat\
+    \n\nPerfect = +50 pts\
+    \nGood   = +10 pts\
+    \nMissed  =  -1 pt\
+    \n\nGood Luck\
+    \nand have fun!', width * 0.85, height * 0.5);
+
+  noStroke();
+
+  if (!gameStart){
+    if (kb.presses('arrowDown')){
+      songIndex++;
+      songIndex = songIndex % song.length;
+      }
+    textAlign(CENTER);
+    textSize(28);
+    text('Current Song #'+songIndex+'\
+    \nPress Down Arrow key to change next song.', width*0.5, height*0.7);
+    if (keyIsDown(32)) {
+      startBtn.visible = false;
+      startBtn.collider = 'n';
+      startTime = millis();
+      // songIndex = Math.floor(random(song.length));
+      if (audiocontext.state !== 'running') {
+        audiocontext.resume();
+      }
+    }
   }
 }
 
@@ -340,7 +354,7 @@ function endScreen() {
     p[i].visible = false;
     beats[i].removeAll();
   }
-  startBtn.y = height * 0.7;
+  startBtn.y = height * 0.65;
   startBtn.visible = true;
   startBtn.collider = 's';
   // if (startBtn.mouse.hovering()) {
@@ -350,14 +364,15 @@ function endScreen() {
   //   startBtn.color = 'purple';
   //   cursor(ARROW);
   // }
-
-  if (kb.pressing('SPACEBAR')) {
+  textAlign(CENTER);
+  textSize(22);
+  text('Current Song #'+songIndex+'\
+  \nPress Down Arrow key to change next song.', width*0.5, height*0.8);
+  if (keyIsDown(32)) {
     if (gameStart) {
       gameStart = !gameStart;
     }
-    if (gameTime < 0) {
-      songIndex = Math.floor(random(song.length));
-    }
+
   }
 }
 
@@ -412,6 +427,7 @@ function windowResized() {
 //                            fix audioContext for Chrome 7.1+ issue
 //                            add temp favicon
 //              Version 2.2 - fix spacebar key replay issue
+//              Version 2.3 - add song selection to start screen and end screen
 //
 // ** Note: **
 // All graphics are handcrafted and created by Snack Crew team.
