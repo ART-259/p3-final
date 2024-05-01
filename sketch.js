@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: TBD 
-// Version: 2.3
+// Version: 2.5
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@ let gameTime, startTime, lTime; //, levelTime; // Timing variables
 let endMessage; // End user message
 let catchMessage = [], catchImg = []; // Display if beat is catched
 let song = [], songIndex, amp, audiocontext; // Music
+let pChar, gChar, mChar;
 
 function preload() {
 
@@ -30,7 +31,6 @@ function preload() {
     ballImgs.push(loadImage('image/Ball' + i + '.png'));
     song.push(loadSound('sound/s' + i + '.mp3'));
   }
-
 }
 
 function setup() {
@@ -77,6 +77,28 @@ function setup() {
   endMessage.visible = true;
   endMessage.textSize = 28;
   endMessage.textColor = '#cbc3e3';
+
+  pChar = new Sprite(width*0.1, height*0.2, 100, 'n');
+  gChar = new Sprite(width*0.1, height*0.45, 100, 'n'); 
+  mChar = new Sprite(width*0.1, height*0.75, 100, 'n');
+  pChar.addAni('act', 'image/2d-m-vamp-0.png', 1);
+  gChar.addAni('act', 'image/2d-f-sam-0.png', 1);
+  mChar.addAni('act', 'image/3d-f-vamp-0.png', 1);
+  pChar.ani.frameDelay = 15;
+  gChar.ani.frameDelay = 15;
+  mChar.ani.frameDelay = 15;
+  pChar.ani.noLoop();
+  gChar.ani.noLoop();
+  mChar.ani.noLoop();
+  pChar.ani.stop();
+  gChar.ani.stop();
+  mChar.ani.stop();
+  pChar.scale = 0.3;
+  gChar.scale = 0.3;
+  mChar.scale = 0.3;
+  pChar.visible = false;
+  gChar.visible = false;
+  mChar.visible = false;
 
   songIndex = 0;
   // levelTime = song[songIndex].duration();
@@ -243,6 +265,7 @@ function catchBeat(i) {
   if (beats[i].length > 0) {
     for (let j = 0; j < beats[i].length; j++) {
       let temp = Math.abs(p[i].y - beats[i][j].y);
+
       // Perfect
       if (temp <= 25) {
         score += 50;
@@ -250,6 +273,7 @@ function catchBeat(i) {
         let cm = new catchMessage[i].Sprite();
         cm.img = catchImg[0];
         beats[i][j].remove();
+        pChar.ani.play(0);
         // Good
       } else if (temp <= 50) {
         score += 10;
@@ -257,9 +281,11 @@ function catchBeat(i) {
         let cm = new catchMessage[i].Sprite();
         cm.img = catchImg[1];
         beats[i][j].remove();
-      }
+        gChar.ani.play(0);        
+      } 
     }
   }
+  
 }
 
 // Check Losing Condition
@@ -273,9 +299,11 @@ function loseBeat() {
         let cm = new catchMessage[i].Sprite();
         cm.img = catchImg[2];
         beats[i][j].remove();
-      }
+        mChar.ani.play(0);
+      } 
     }
   }
+  
 }
 
 function playSong(i) {
@@ -355,6 +383,9 @@ function startScreen(){
     if (keyIsDown(32)) {
       startBtn.visible = false;
       startBtn.collider = 'n';
+      pChar.visible = true;
+      gChar.visible = true;
+      mChar.visible = true;
       startTime = millis();
       // songIndex = Math.floor(random(song.length));
       if (audiocontext.state !== 'running') {
@@ -389,6 +420,9 @@ function endScreen() {
   startBtn.y = height * 0.65;
   startBtn.visible = true;
   startBtn.collider = 's';
+  pChar.visible = false;
+  gChar.visible = false;
+  mChar.visible = false;
   // if (startBtn.mouse.hovering()) {
   //   startBtn.color = 'green';
   //   cursor(HAND);
@@ -460,6 +494,8 @@ function windowResized() {
 //                            add temp favicon
 //              Version 2.2 - fix spacebar key replay issue
 //              Version 2.3 - add song selection to start screen and end screen
+//              Version 2.4 - add 3 avatars images for animation
+//              Version 2.5 - add animation with sprites and update algorithm
 //
 // ** Note: **
 // All graphics are handcrafted and created by Snack Crew team.
