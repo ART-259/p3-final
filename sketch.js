@@ -1,7 +1,7 @@
 // Team : Ken Pao, Yuying Huang, Michael Martin
 // Class: ART 259
 // Assignment: Project 3
-// Title: TBD 
+// Title: Sonic Nights 
 // Version: 2.5
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
