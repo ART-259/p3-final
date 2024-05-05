@@ -112,14 +112,14 @@ button {
   height: 50px;
 
   /* animation short-hand working only with following 6 attributes*/
-  animation: fly 3s ease-in-out 0.5s infinite normal;
+  animation: fly 3s ease-in-out 0.5s infinite alternate;
   /* animation-name: fly;
   animation-duration: 3s;
   animation-timing-function: ease-in-out;
   animation-delay: 0.5s;
   animation-iteration-count: infinite;
   animation-direction: normal; */
-  
+
   animation-fill-mode: both;
 }
 
@@ -134,7 +134,7 @@ button {
   50% {
     transform: rotate(45deg); 
     left: 45%;
-    top: -180px;
+    top: -50px;
   }
 
   100% {
