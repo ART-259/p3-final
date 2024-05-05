@@ -3,7 +3,7 @@
 **Class:** ART 259  
 **Assignment:** Project 3  
 **Title:** Sonic Nights    
-**Version:** 2.3  
+**Version:** 3.0  
 **Game repo :** https://github.com/ART-259/p3-final  
 **Gameplay link :** https://art-259.github.io/p3-final/    
   
@@ -21,6 +21,6 @@
 > Using loyalty free sound files for game  
 
 **Note:**  
-All graphics are handcrafted and created by Snack Crew team.  
+Most graphics are handcrafted and created by Snack Crew team.  
   
-Temp Favicon is credited from https://www.flaticon.com/free-icons/musical-note   
+Favicon is credited from https://www.flaticon.com/free-icons/musical-note   
