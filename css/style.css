@@ -1,0 +1,145 @@
+body {
+  background-color: darkslateblue;
+  color: #fff;
+}
+
+canvas {
+  margin: auto;
+  display: block;
+}
+
+h1,h2,h3 {
+  font-family: "Petrona", serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #fff;
+}
+
+p,li {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #fff;
+}
+
+button {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #fff;
+}
+
+/* CLASS */
+.bg-blue {
+  background-color: #006CB7;
+  box-shadow: 3px 3px 10px 1px #333;
+}
+
+.bg-blur {
+  box-shadow: 0 0 20px 20px #006CB7;
+}
+
+.top {
+	/* set an offset to hide the button
+	until 50px after scrolling from top*/
+  --offset: 100px; 
+	
+	/* button position */
+  position: sticky;
+  bottom: 20px;  
+  padding: 20px;
+  margin-right: 50px;    
+
+	/* 100vh = 1 screen vertical height */
+  margin-top: calc(100vh + var(--offset));
+}
+
+.btn-cRed{
+  /* button styling */
+  text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  background: #8B3E3C;
+  border-radius: 100px;
+	white-space: nowrap;
+  box-shadow: 3px 3px 10px 1px #333;
+}
+
+.btn-cRed:hover{
+  background: #C6E2F6;
+  color: #000;
+}
+
+.anchor{
+  scroll-margin-top: 100px;
+}
+
+.image2{
+  position: absolute;
+  left: 25%;
+  width: 25%;
+  top: 210%;
+}
+
+.imgExpand:hover, .textExpand:hover{
+  transform: scale(1.2);
+}
+
+.imgShadow{
+  filter: drop-shadow(3px 3px 10px #333);
+}
+
+.cardShadow{
+  box-shadow: 3px 3px 10px 1px #333;
+}
+
+.textShadow{
+  text-shadow: 2px 2px 4px #222;
+}
+
+.card-title{
+  color: #fff;
+}
+
+.ball-div{
+  position: relative;
+}
+
+/* Animation */
+.ball {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+
+  /* animation short-hand working only with following 6 attributes*/
+  animation: fly 3s ease-in-out 0.5s infinite alternate;
+  /* animation-name: fly;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: normal; */
+
+  animation-fill-mode: both;
+}
+
+/* Animation */
+@keyframes fly {
+  0% {
+    transform: rotate(0deg); 
+    left: 5%;
+    top: -50px;
+  }
+
+  50% {
+    transform: rotate(45deg); 
+    left: 45%;
+    top: -50px;
+  }
+
+  100% {
+    transform: rotate(90deg); 
+    left: 90%;
+    top: -50px;
+  }
+}

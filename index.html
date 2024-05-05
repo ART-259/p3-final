@@ -1,38 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <title>Project 3</title>
-    
-    <!--//////// My CSS ////////-->
-    <link rel="stylesheet" type="text/css" href="style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ART 259 Project 3 - Sonic Nights Overview">
+  <meta name="keywords" content="Final Project, Sonic Nights Overview">
+  <title>ART 259 Project 3 - Sonic Nights Overview</title>
+  <!--    ///// BOOTSTRAP CSS ///// -->
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+  <!--    ///// GOOGLE FONTS /////-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap"
+    rel="stylesheet">
+  <!--    ///// MY STYLES /////-->
+  <link rel="stylesheet" href="css/style.css">
+  <!--    ///// FAVICON /////-->
+  <link rel="shortcut icon" href="image/m.ico" type="image/x-icon">
+  <link rel="icon" href="image/m.ico" type="image/x-icon">
+</head>
 
-    <!--    ///// FAVICON /////-->
-    <link rel="shortcut icon" href="image/m.ico" type="image/x-icon">
-    <link rel="icon" href="image/m.ico" type="image/x-icon">
+<body>
+  <!--  //////////// PAGE CONTENT CONTAINER //////////-->
+  <main class="container-fluid">
 
+    <!--  //////////// NAVBAR ///////////-->
+    <nav class="navbar navbar-dark bg-blue fixed-top mb-3">
+      <div class="container">
 
-    
-  </head>
+        <a class="navbar-brand" href="#">
+          <img src="image/logo.png" class="imgShadow" alt="badminton logo" width="50" height="60">
+        </a>
 
-  <body>
-    <div id = 'p3'>
-      <script src="sketch.js"></script>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link textShadow textExpand active" aria-current="page" href="#">Overview</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link textShadow textExpand" href="project.html">Game</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+          aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end navbar-dark bg-blue" tabindex="-1" id="offcanvasDarkNavbar">
+          <div class="offcanvas-header">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body align-self-center">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+              <!-- ///// Nav-Home ///// -->
+              <li class="nav-item align-self-center">
+                <a class="nav-link btn-cRed px-3 active" aria-current="page" href="#">Overview</a>
+              </li>
+              <li class="nav-item">
+                <ul class="navbar-nav container align-items-center">
+                  <li class="nav-item">
+                    <a class="nav-link textShadow textExpand" href="#s1">Section 1</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link textShadow textExpand" href="#s2">Section 2</a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- ///// Nav-Project ///// -->
+              <li class="nav-item align-self-center">
+                <a class="nav-link btn-cRed px-3" href="project.html">
+                  <span data-bs-dismiss="offcanvas">
+                    Game
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!--  //////////// Section 1 ///////////-->
+    <div id="s1" class="my-5 pt-5 pb-3 anchor">
+      <div class="d-flex flex-column justify-content-center my-5 bg-blue bg-blur rounded-5">
+        <div class="p-2">
+          <div class="p-5">
+            <!--  //////////// CAROUSEL ///////////-->
+            <div id="carouselExampleIndicators" class="carousel slide carousel-fade w-75 mx-auto"
+              data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="image/i1.jpeg" class="d-block w-100 rounded-3"
+                    alt="a female student initial Makeymakey testing">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/i2.jpeg" class="d-block w-100 rounded-3"
+                    alt="a male student initial Makeymakey testing">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/i3.jpeg" class="d-block w-100 rounded-3"
+                    alt="a man initial Makeymakey testing">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/m1.jpeg" class="d-block w-100 rounded-3"
+                    alt="team making and testing initial makeymakey button prototype">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/m2.jpeg" class="d-block w-100 rounded-3"
+                    alt="team continue making and testing initial makeymakey button prototype">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/m3.jpeg" class="d-block w-100 rounded-3"
+                    alt="team remkaing and improving makeymakey button prototype">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/p1.jpeg" class="d-block w-100 rounded-3"
+                    alt="initial game start screen">
+                </div>
+                <div class="carousel-item">
+                  <img src="image/p2.jpeg" class="d-block w-100 rounded-3"
+                    alt="initial team member play testing game">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ball-div">
+          <img src="image/Ball0.png" class="ball" alt="bouncing ball">
+        </div>
+
+      </div>
     </div>
-       
-    <!--//////// p5js ////////-->
-    <!-- Cloud Libraries -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.min.js"></script>
-    <script src="https://p5play.org/v3/planck.min.js"></script>
-    <script src="https://p5play.org/v3/p5play.js"></script> -->
 
-	  <!-- Local libraries -->
-    <script src="p5.js"></script>
-    <script src="p5.sound.min.js"></script>
-    <script src="planck.min.js"></script>
-    <script src="p5play.js"></script>
-  </body>
+    <!--  //////////// Section 2 ///////////-->
+
+    <!--  //////////// CARD 1 ///////////-->
+    <div id="s2" class="card mb-3 pb-3 bg-blue border-0 anchor">
+      <div class="row g-0 align-items-center">
+
+        <div class="col-md-1 col-sm-2 order-1 order-md-first"></div>
+        <div class="col-md-5 col-sm-8 order-1 order-md-first">
+          <div class="card-body">
+            <h2 class="card-title textShadow">Initial Game Making</h2>
+            <p class="card-text">From cutting and striping wires for the first time, to positioning and designing buttons for MakeyMakey, it is both a fun and engaging game making experience.</p>
+            <a id="btn1" class="d-md-none d-block btn btn-cRed float-end">
+              <i class="bi bi-chevron-right px-1"></i>
+            </a>
+          </div>
+        </div>
+        <div class="d-md-none d-block col-sm-2 order-1 order-md-first"></div>
+
+        <div class="d-md-none d-block col-sm-2 order-0 order-md-last"></div>
+        <div class="col-md-5 col-sm-8 order-0 order-md-last">
+          <video src="image/initial_making.mp4" class="object-fit-fill w-100" controls muted></video>
+        </div>
+        <div class="col-md-1 col-sm-2 order-0 order-md-last"></div>
+      </div>
+    </div>
+
+    <!--  //////////// CARD 2 ///////////-->
+    <div id="c2" class="card d-md-block d-none mb-3 pb-3 bg-blue border-0">
+      <div class="row g-0 align-items-center">
+
+        <div class="col-md-1 col-sm-2 order-1 order-md-first"></div>
+        <div class="col-md-5 col-sm-8 order-1 order-md-first">
+          <div class="card-body">
+            <h2 class="card-title textShadow">Initial Team Member Play Testing</h2>
+            <p class="card-text">After a long day working tirelessly, we are ready to play test for the first time. Look how happy we are playing even though our buttons broke after a few tries.</p>
+            <a id="btn2" class="d-md-none d-block btn btn-cRed float-end">
+              <i class="bi bi-chevron-right px-1"></i>
+            </a>
+          </div>
+        </div>
+        <div class="d-md-none d-block col-sm-2 order-1 order-md-first"></div>
+
+        <div class="d-md-none d-block col-sm-2 order-0 order-md-last"></div>
+        <div class="col-md-5 col-sm-8 order-0 order-md-last">
+          <video src="image/initial_playtest.mp4" class="object-fit-fill w-100" controls muted></video>
+        </div>
+        <div class="col-md-1 col-sm-2 order-0 order-md-last"></div>
+      </div>
+    </div>
+
+    <!--  //////////// CARD 3 ///////////-->
+    <div id="c3" class="card d-md-block d-none mb-3 pb-3 bg-blue border-0">
+      <div class="row g-0 align-items-center">
+
+        <div class="col-md-1 col-sm-2 order-1 order-md-first"></div>
+        <div class="col-md-5 col-sm-8 order-1 order-md-first">
+          <div class="card-body">
+            <h2 class="card-title textShadow">Professor Play Testing</h2>
+            <p class="card-text">Getting professional feedback is the most important key to imrpove and learn how to make a better game.</p>
+            <a id="btn3" class="d-md-none d-block btn btn-cRed float-end">
+              <i class="bi bi-chevron-right px-1"></i>
+            </a>
+          </div>
+        </div>
+        <div class="d-md-none d-block col-sm-2 order-1 order-md-first"></div>
+
+        <div class="d-md-none d-block col-sm-2 order-0 order-md-last"></div>
+        <div class="col-md-5 col-sm-8 order-0 order-md-last">
+          <video src="image/tyler_playtest.mp4" class="object-fit-fill w-100" controls muted></video>
+        </div>
+        <div class="col-md-1 col-sm-2 order-0 order-md-last"></div>
+      </div>
+    </div>
+
+    <!--  //////////// FOOTER ///////////-->
+    <footer class="mt-5">
+
+      <div class="d-block">
+        <div class="ball-div">
+          <img src="image/Ball1.png" class="ball" alt="bouncing ball">
+        </div>
+        <!--  //////////// Logo ///////////-->
+        <div class="d-flex justify-content-around flex-row mb-3">
+          <div class="flex-shrink-0 align-self-center">
+            <img src="image/logo.png" class="imgShadow" alt="badminton logo" width="50" height="60">
+          </div>
+
+          <!--  //////////// Contact ///////////-->
+          <div class="col-8">
+            <div class="collapse" id="contact">
+              <button type="button" class="btn-close btn-close-white float-end" data-bs-toggle="collapse"
+                data-bs-target="#contact" aria-expanded="false" aria-controls="contact" aria-label="Close"></button>
+              <div class="d-flex flex-column bg-blue bg-gradient rounded-5 mb-3 px-3">
+                <div class="p-2 align-self-center">
+                  <h3 class="textShadow">Contact Us</h3>
+                </div>
+                <div class="py-2">
+                  <form class="d-flex flex-column g-0 needs-validation" novalidate>
+                    <div class="py-2">
+                      <input type="text" class="form-control" placeholder="Full name" aria-label="Full name" required>
+                      <div class="valid-feedback text-light">
+                        Looks good!
+                      </div>
+                      <div class="invalid-feedback text-warning">
+                        Please provide your full name.
+                      </div>
+                    </div>
+                    <div class="py-2">
+                      <input type="email" class="form-control" placeholder="Email" aria-label="Email" required>
+                      <div class="valid-feedback text-light">
+                        Looks good!
+                      </div>
+                      <div class="invalid-feedback text-warning">
+                        Please provide your email address.
+                      </div>
+                    </div>
+                    <div class="py-2">
+                      <textarea class="form-control" placeholder="Message" aria-label="Message" required></textarea>
+                      <div class="valid-feedback text-light">
+                        Looks good!
+                      </div>
+                      <div class="invalid-feedback text-warning">
+                        Please provide a message.
+                      </div>
+                    </div>
+                    <div class="py-2 align-self-center">
+                      <button type="submit" class="btn btn-cRed px-3">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column">
+              <button class="btn btn-cRed" type="button" data-bs-toggle="collapse" data-bs-target="#contact"
+                aria-expanded="false" aria-controls="contact">
+                Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ////////// BACK TO TOP BUTTON //////////-->
+    <a href="#" class="top">
+      <p class="d-md-block d-none btn btn-cRed float-end">Back to Top</p>
+      <p class="d-md-none d-block btn btn-cRed float-end"><i class="bi bi-chevron-bar-up px-1"></i></p>
+    </a>
+
+  </main>
+  <!--////////////// BOOTSTRAP SCRIPT ////////////-->
+  <script src="js/bootstrap.bundle.js"></script>
+  <!--////////////// MY SCRIPT ///////////////////-->
+  <script src="js/script-project.js"></script>
+  <!--  /////////////////////////////////-->
+</body>
+
 </html>
