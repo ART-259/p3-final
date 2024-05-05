@@ -2,7 +2,7 @@
 // Class: ART 259
 // Assignment: Project 3
 // Title: Sonic Nights 
-// Version: 2.5
+// Version: 3.0
 // Game repo: https://github.com/ART-259/p3-final
 // Reference: listed at the end of this file
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ let gameTime, startTime, lTime; //, levelTime; // Timing variables
 let endMessage; // End user message
 let catchMessage = [], catchImg = []; // Display if beat is catched
 let song = [], songIndex, amp, audiocontext; // Music
-let pChar, gChar, mChar;
+let pChar, gChar, mChar; // Animation base on catching condition
 
 function preload() {
 
@@ -309,35 +309,15 @@ function loseBeat() {
 function playSong(i) {
   // only play song when playing game (i.e game time > 0)
   if (gameTime > 0) {
-    // if (i === 8){
-    //   rSong[0].play();
-    //   rSong[1].stop();
-    //   amp = new p5.Amplitude();
-    //   amp.setInput(rSong[0]);
-    // } else
-    // if (i == 9){
-    //   rSong[1].play();
-    //   rSong[0].stop();
-    //   amp = new p5.Amplitude();
-    //   amp.setInput(rSong[1]);
-    // } else
+
     if (!song[i].isPlaying()) {
-      // if (audiocontext.state !== 'running'){
-      //   audiocontext.resume();
-      // }
+
       song[i].play();
-      // levelTime = round(song[i].duration(),1);
-      // startTime = round(song[i].currentTime(),1);
+
       amp = new p5.Amplitude();
       amp.setInput(song[i]);
     }
-    // else {
-    //   for (let x = 0; x < song.length; x++){
-    //     if (x !== i){
-    //       song[x].stop();
-    //     }
-    //   }
-    // }
+
   }
 }
 
@@ -366,16 +346,6 @@ function startScreen(){
       songIndex = songIndex % song.length;
     }
     
-    // let temp = false;
-    // if (kb.presses('arrowUp')){
-    //   if (temp){
-    //     songIndex = 9;
-    //     temp = !temp;
-    //   } else {
-    //     songIndex = 8;
-    //     temp = !temp;
-    //   }
-    // }
     textAlign(CENTER);
     textSize(28);
     text('Current Song #'+songIndex+'\
@@ -387,7 +357,7 @@ function startScreen(){
       gChar.visible = true;
       mChar.visible = true;
       startTime = millis();
-      // songIndex = Math.floor(random(song.length));
+
       if (audiocontext.state !== 'running') {
         audiocontext.resume();
       }
@@ -423,13 +393,7 @@ function endScreen() {
   pChar.visible = false;
   gChar.visible = false;
   mChar.visible = false;
-  // if (startBtn.mouse.hovering()) {
-  //   startBtn.color = 'green';
-  //   cursor(HAND);
-  // } else {
-  //   startBtn.color = 'purple';
-  //   cursor(ARROW);
-  // }
+
   textAlign(CENTER);
   textSize(22);
   text('Current Song #'+songIndex+'\
@@ -438,7 +402,6 @@ function endScreen() {
     if (gameStart) {
       gameStart = !gameStart;
     }
-
   }
 }
 
@@ -448,7 +411,6 @@ function resetGame() {
   pc = 0;
   gc = 0;
   mc = 0;
-
 }
 
 // Window resized function will run when "reload" after a browser window resize
@@ -496,9 +458,10 @@ function windowResized() {
 //              Version 2.3 - add song selection to start screen and end screen
 //              Version 2.4 - add 3 avatars images for animation
 //              Version 2.5 - add animation with sprites and update algorithm
+//              Version 3.0 - clean up and final code submit
 //
 // ** Note: **
-// All graphics are handcrafted and created by Snack Crew team.
-// Temp Favicon: https://www.flaticon.com/free-icons/musical-note
+// Most graphics are handcrafted and created by Snack Crew team.
+// Favicon: https://www.flaticon.com/free-icons/musical-note
 ///////////////////////////////////////////////////////////////////////////////
 
