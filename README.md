@@ -3,7 +3,7 @@
 **Class:** ART 259  
 **Assignment:** Project 3  
 **Title:** Sonic Nights    
-**Version:** 2.5  
+**Version:** 3.0  
 **Game repo :** https://github.com/ART-259/p3-final  
 **Gameplay link :** https://art-259.github.io/p3-final/    
   
