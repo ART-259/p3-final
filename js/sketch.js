@@ -47,6 +47,9 @@ function setup() {
     p.push(new Sprite(posX[i], height * 0.93, 100, 'n'));
     p[i].color = c[i];
     p[i].visible = false;
+    p[i].text = k[i].toUpperCase();
+    p[i].textSize = 50;
+    p[i].textColor = 'white';
 
     beats.push(new Group());
     beats[i].x = posX[i];
@@ -398,6 +401,10 @@ function endScreen() {
   textSize(22);
   text('Current Song #'+songIndex+'\
   \nPress Down Arrow key to change next song.', width*0.5, height*0.8);
+  // if (kb.presses('arrowDown')){
+  //   songIndex++;
+  //   songIndex = songIndex % song.length;
+  // }
   if (keyIsDown(32)) {
     if (gameStart) {
       gameStart = !gameStart;
