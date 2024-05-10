@@ -168,7 +168,7 @@ function topBar() {
 
     gameTime = round(song[songIndex].duration() - song[songIndex].currentTime(),0);
   
-  
+  // gameTime = 5 - round((millis() - startTime)/1000);
 
   if (lTime > 0) {
     endMessage.visible = true;
@@ -401,10 +401,10 @@ function endScreen() {
   textSize(22);
   text('Current Song #'+songIndex+'\
   \nPress Down Arrow key to change next song.', width*0.5, height*0.8);
-  // if (kb.presses('arrowDown')){
-  //   songIndex++;
-  //   songIndex = songIndex % song.length;
-  // }
+  if (kb.presses('arrowDown')){
+    songIndex++;
+    songIndex = songIndex % song.length;
+  }
   if (keyIsDown(32)) {
     if (gameStart) {
       gameStart = !gameStart;
